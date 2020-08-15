@@ -3,10 +3,7 @@
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "src"
-  ],
+  "files": ["dist", "src"],
   "engines": {
     "node": ">=10"
   },
@@ -33,7 +30,7 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "core",
+  "name": "@playground/core",
   "author": "Nick Hehr",
   "module": "dist/core.esm.js",
   "devDependencies": {
