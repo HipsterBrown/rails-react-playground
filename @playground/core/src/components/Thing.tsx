@@ -13,7 +13,9 @@ export interface Props extends HTMLAttributes<HTMLParagraphElement> {
 export const Thing: FC<Props> = ({ children, ...rest }) => {
   return (
     <p {...rest}>
-      <em>{children || `the snozzberries taste like snozzberries`}</em>
+      <em>{children || `Some content required`}</em>
     </p>
   );
 };
+
+export default Thing;

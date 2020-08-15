@@ -1,5 +1,5 @@
 import { Controller } from 'stimulus';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { render } from 'react-dom';
 import registry from '../registry';
 
@@ -8,7 +8,12 @@ export default class extends Controller {
     const App = this.app;
 
     if (App) {
-      render(<App {...this.initialProps} />, this.element);
+      render(
+        <Suspense fallback="Loading...">
+          <App {...this.initialProps} />
+        </Suspense>,
+        this.element
+      );
     } else {
       console.warn(`Could not resolve app with name: '${this.name}'`);
     }
