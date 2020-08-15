@@ -1,0 +1,12 @@
+{
+  "name": "playground",
+  "private": true,
+  "dependencies": {
+    "@babel/preset-typescript": "^7.10.4",
+    "@rails/webpacker": "5.1.1",
+    "typescript": "^3.9.7"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^3.11.0"
+  }
+}
