@@ -1,10 +1,25 @@
+const path = require('path');
+const stimulus = require('rollup-plugin-stimulus');
+
+const external = id => !id.startsWith('.') && !path.isAbsolute(id);
+
 module.exports = {
-  rollup(config) {
-    console.log(config.output);
+  rollup(config, options) {
     config.output = {
       dir: 'dist',
+      format: options.format,
+      sourcemap: true,
     };
-    // config.output.dir = 'dist';
+    config.external = id => {
+      if (
+        id.startsWith('regenerator-runtime') ||
+        id.startsWith('stimulus-controllers')
+      ) {
+        return false;
+      }
+      return external(id);
+    };
+    config.plugins.unshift(stimulus());
     return config;
   },
 };

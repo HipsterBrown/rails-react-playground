@@ -12106,6 +12106,11 @@ rollup-plugin-sourcemaps@^0.4.2:
     rollup-pluginutils "^2.0.1"
     source-map-resolve "^0.5.0"
 
+rollup-plugin-stimulus@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-stimulus/-/rollup-plugin-stimulus-0.0.1.tgz#089d91571a437405a48a3d12b2caa640c7f23d25"
+  integrity sha512-2lATFQl59YkfaI9P4N4qNa3OgC4fHzQWg6NtghnmCCqquv4HXwIk5W1wEzYq2PK+pi5KxSXSDXNBoI8jGqU37A==
+
 rollup-plugin-terser@^5.1.2:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/rollup-plugin-terser/-/rollup-plugin-terser-5.3.0.tgz#9c0dd33d5771df9630cd027d6a2559187f65885e"
