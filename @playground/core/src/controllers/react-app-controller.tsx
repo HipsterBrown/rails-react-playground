@@ -1,7 +1,7 @@
 import { Controller } from 'stimulus';
-import React, { Suspense } from 'react';
+import React, { Suspense, lazy } from 'react';
 import { render } from 'react-dom';
-import registry from '../registry';
+import components from 'react-components';
 
 export default class extends Controller {
   connect() {
@@ -20,7 +20,7 @@ export default class extends Controller {
   }
 
   get app() {
-    return registry.getApp(this.name || '');
+    return lazy(components[this.name || '']);
   }
 
   get name() {

@@ -1,0 +1,14 @@
+{
+  "name": "@playground/rollup-plugin-react-registry",
+  "version": "1.0.0",
+  "description": "A rollup plugin to auto-magically register React components from a directory",
+  "main": "dist/rollup-plugin-react-registry.cjs.js",
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "license": "NOLICENSE",
+  "devDependencies": {
+    "rollup": "^1.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0"
+  }
+}

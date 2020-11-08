@@ -3,5 +3,6 @@
   "workspaces": [
     "playground",
     "@playground/*"
-  ]
+  ],
+  "name": "rails-react-playground"
 }
