@@ -1,0 +1,15 @@
+{
+  "name": "@playground/rollup-plugin-react-routes",
+  "version": "1.0.0",
+  "description": "Rollup plugin to automagically build a Routes component using file-based route conventions",
+  "main": "dist/rollup-plugin-react-routes.cjs.js",
+  "scripts": {
+    "start": "rollup -cw",
+    "build": "rollup -c"
+  },
+  "license": "NOLICENSE",
+  "devDependencies": {
+    "rollup": "^1.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0"
+  }
+}

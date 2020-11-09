@@ -1,5 +1,6 @@
 const path = require('path');
 const stimulus = require('rollup-plugin-stimulus');
+const reactRoutes = require('@playground/rollup-plugin-react-routes');
 
 const external = id => !id.startsWith('.') && !path.isAbsolute(id);
 
@@ -13,12 +14,14 @@ module.exports = {
     config.external = id => {
       if (
         id.startsWith('regenerator-runtime') ||
-        id.startsWith('stimulus-controllers')
+        id.startsWith('stimulus-controllers') ||
+        id.startsWith('react-routes')
       ) {
         return false;
       }
       return external(id);
     };
+    config.plugins.unshift(reactRoutes());
     config.plugins.unshift(stimulus());
     return config;
   },

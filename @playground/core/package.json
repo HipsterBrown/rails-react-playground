@@ -38,12 +38,14 @@
   "module": "dist/index.js",
   "devDependencies": {
     "@babel/core": "^7.11.1",
+    "@playground/rollup-plugin-react-routes": "*",
     "@storybook/addon-a11y": "^6.0.10",
     "@storybook/addon-essentials": "^6.0.10",
     "@storybook/addons": "^6.0.10",
     "@storybook/react": "^6.0.10",
     "@types/react": "^16.9.46",
     "@types/react-dom": "^16.9.8",
+    "@types/react-router-dom": "^5.1.6",
     "babel-loader": "^8.1.0",
     "husky": "^4.2.5",
     "react": "^16.13.1",
@@ -57,6 +59,8 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
     "stimulus": "^1.1.1"
   }
 }

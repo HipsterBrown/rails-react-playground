@@ -8,6 +8,7 @@ interface AppRegistry {
 
 const apps: AppRegistry = {
   thing: () => import('./components/Thing'),
+  app: () => import('./components/App'),
 };
 
 const getApp = (name: string) => lazy(apps[name]);
