@@ -12,7 +12,7 @@
   },
   "sideEffects": true,
   "scripts": {
-    "start": "vite dev",
+    "start": "vite build --watch",
     "build": "vite build && tsc --emitDeclarationOnly",
     "test": "vitest --passWithNoTests",
     "test:ui": "vitest --ui --passWithNoTests",
