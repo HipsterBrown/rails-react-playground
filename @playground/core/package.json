@@ -15,7 +15,7 @@
     "build": "vite build && tsc --emitDeclarationOnly",
     "test": "vitest --passWithNoTests",
     "test:ui": "vitest --ui --passWithNoTests",
-    "lint": "tsdx lint",
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "prepare": "pnpm build",
     "storybook": "start-storybook -p 6006"
   },
@@ -25,7 +25,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "tsdx lint"
+      "pre-commit": "pnpm lint"
     }
   },
   "prettier": {
@@ -62,16 +62,18 @@
     "@testing-library/react": "^13.4.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.39.0",
+    "@typescript-eslint/parser": "^5.39.0",
     "@vitejs/plugin-react": "^2.1.0",
     "@vitest/ui": "^0.24.0",
+    "eslint": "^8.25.0",
+    "eslint-plugin-react": "^7.31.8",
     "husky": "^4.2.5",
     "jsdom": "^20.0.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-is": "^18.0.0",
     "stimulus-vite-helpers": "^3.0.1",
-    "tsdx": "^0.13.2",
-    "tslib": "^2.0.1",
     "typescript": "^4.8.0",
     "vite": "^3.0.0",
     "vitest": "^0.24.0"
