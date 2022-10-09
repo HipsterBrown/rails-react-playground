@@ -13,7 +13,8 @@
   "scripts": {
     "start": "vite dev",
     "build": "vite build && tsc --emitDeclarationOnly",
-    "test": "tsdx test --passWithNoTests",
+    "test": "vitest --passWithNoTests",
+    "test:ui": "vitest --ui --passWithNoTests",
     "lint": "tsdx lint",
     "prepare": "pnpm build",
     "storybook": "start-storybook -p 6006"
