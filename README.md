@@ -4,7 +4,7 @@ An example repo setup for serving React components through Rails using [pnpm wor
 
 ## Overview
 
-While the original motivation for this setup was to support a monorepo with multiple Rails apps and engines and sharing JS assets, like Stimulus controllers and React components, among them, this simplified example shows a nice workflow where the JS assets can be built in isolation with modern tooling and served through the dependent Rails app like any other package.
+While the original motivation for this setup was to support a monorepo with multiple Rails apps and engines and sharing JS assets, like custom elements and React components, among them, this simplified example shows a nice workflow where the JS assets can be built in isolation with modern tooling and served through the dependent Rails app like any other package.
 
 [pnpm workspaces](https://pnpm.io/workspaces) are used to connect the internal JS package with the Rails app without needing to publish the package to a remote registry. The `@playground` directory is used to allow for multiple internal packages to be scoped under the `workspaces` field in the root `package.json`, but it's not required. `@playground/core` is scaffolded using [`create-vite-app`](https://vitejs.dev/guide/#scaffolding-your-first-vite-project) and a React template because it is quick and comes with standard tooling for building TypeScript + React packages. The Rails app (`playground`) is generated like normal, then uses the `bundle exec vite install` command after adding `vite_rails` to the Gemfile.
 
@@ -14,17 +14,9 @@ When building components before integrating into the Rails app, run `pnpm storyb
 
 To serve a React component in the Rails app, a [custom element powered by Catalyst](https://github.github.io/catalyst/) (`react-island.tsx`) is used to mount the component on demand. First, the component must be added to the `@playground/core/src/registry.ts` file:
 
-```ts
-import Thing from './components/Thing';
+The actual `registry.ts` uses [dynamic imports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#Dynamic_Imports) and the [React.lazy](https://reactjs.org/docs/code-splitting.html#reactlazy) API to split the bundled component and lazily load one when the custom element requests it.
 
-const apps: AppRegistry = {
-  thing: Thing,
-};
-```
-
-The actual `registry.ts` uses [dynamic imports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#Dynamic_Imports) and the [React.lazy](https://reactjs.org/docs/code-splitting.html#reactlazy) API to split the bundled component and lazily load one when the Stimulus controller requests it.
-
-To invoke the Stimulus controller in your Rails view:
+To invoke the custom element in your Rails view:
 
 ```erb
 <react-island data-name="thing" ></react-island>
@@ -44,7 +36,7 @@ If the React component should receive initial props from the Rails view, that ca
 <react-island data-name="thing" data-props="<%= {propName: 'some value'}.to_json %>"></react-island>
 ```
 
-The hash could be an instance variable, it just needs to be stringified JSON data to be parsed by the Stimulus controller.
+The hash could be an instance variable, it just needs to be stringified JSON data to be parsed by the custom element.
 
 Or:
 
@@ -53,3 +45,15 @@ Or:
 ```
 
 The `initial_props` argument for the ViewComponent will automatically stringify the hash for the rendered HTML output.
+
+Because the `react-island` island is [lazily-defined](https://github.github.io/catalyst/guide/lazy-elements/), the loading behavior can be controlled through the `data-load-on` attribute:
+
+```erb
+<react-island data-name="thing" data-load-on="visible"></react-island>
+```
+
+Or with the companion ViewComponent:
+
+```erb
+<%= render ReactIslandComponent.new(name: "thing", load_on: 'visible') %>
+```

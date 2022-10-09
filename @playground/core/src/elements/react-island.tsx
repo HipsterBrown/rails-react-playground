@@ -1,7 +1,7 @@
 import { controller, attr } from '@github/catalyst'
 import { Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
-import registry from '../registry';
+import { getIsland } from '../registry';
 
 @controller
 export class ReactIslandElement extends HTMLElement {
@@ -14,8 +14,8 @@ export class ReactIslandElement extends HTMLElement {
     if (Island) {
       createRoot(this).render(
         <Suspense fallback="Loading..." >
-        <Island { ...this.initialProps } />
-      </Suspense>
+          <Island { ...this.initialProps } />
+        </Suspense>
       )
     } else {
       console.warn(`Could not resolve island with name: '${this.name}'`)
@@ -23,7 +23,7 @@ export class ReactIslandElement extends HTMLElement {
   }
 
   get island() {
-    return registry.getApp(this.name || '')
+    return getIsland(this.name || '')
   }
 
   get initialProps() {
