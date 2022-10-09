@@ -1,8 +1,10 @@
-import { Application } from 'stimulus';
-// @ts-ignore magic path for rollup-plugin-stimulus
-import controllers from 'stimulus-controllers';
+/// <reference types="vite/client" />
+
+import { Application } from '@hotwired/stimulus';
+import { registerControllers } from 'stimulus-vite-helpers';
+const controllers = import.meta.glob('./controllers/*-controller.ts*', { eager: true })
 
 export const startStimulusApplication = async () => {
   const application = Application.start();
-  application.load(controllers);
+  registerControllers(application, controllers)
 };

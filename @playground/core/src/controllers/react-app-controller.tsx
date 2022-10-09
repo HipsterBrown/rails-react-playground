@@ -1,6 +1,6 @@
-import { Controller } from 'stimulus';
-import React, { Suspense } from 'react';
-import { render } from 'react-dom';
+import { Controller } from '@hotwired/stimulus';
+import { Suspense } from 'react';
+import { createRoot } from 'react-dom/client';
 import registry from '../registry';
 
 export default class extends Controller {
@@ -8,11 +8,10 @@ export default class extends Controller {
     const App = this.app;
 
     if (App) {
-      render(
+      createRoot(this.element).render(
         <Suspense fallback="Loading...">
           <App {...this.initialProps} />
-        </Suspense>,
-        this.element
+        </Suspense>
       );
     } else {
       console.warn(`Could not resolve app with name: '${this.name}'`);

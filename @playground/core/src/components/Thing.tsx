@@ -1,9 +1,6 @@
-import React, { FC, HTMLAttributes, ReactChild } from 'react';
+import { FC, HTMLAttributes, PropsWithChildren } from 'react';
 
-export interface Props extends HTMLAttributes<HTMLParagraphElement> {
-  /** Custom emphasized text for the Thing  */
-  children?: ReactChild;
-}
+export type Props = PropsWithChildren<HTMLAttributes<HTMLParagraphElement>>
 
 // Please do not use types off of a default export module or else Storybook Docs will suffer.
 // see: https://github.com/storybookjs/storybook/issues/9556

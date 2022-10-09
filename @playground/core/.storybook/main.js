@@ -4,4 +4,10 @@ module.exports = {
   typescript: {
     check: true,
   },
+  features: {
+    storyStoreV7: true,
+    babelModeV7: true,
+    breakingChangesV7: true
+  },
+  framework: "@storybook/react-webpack5"
 };
