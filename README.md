@@ -1,6 +1,6 @@
 # React on Rails Playground
 
-An example repo setup for serving React components through Rails using [pnpm workspaces](https://pnpm.io/workspaces), [Vite Ruby](https://vite-ruby.netlify.app/), and [Stimulus](https://stimulus.hotwired.dev).
+An example repo setup for serving React components through Rails using [pnpm workspaces](https://pnpm.io/workspaces), [Vite Ruby](https://vite-ruby.netlify.app/), and [Catalyst](https://github.github.io/catalyst/).
 
 ## Overview
 
@@ -12,7 +12,7 @@ While the original motivation for this setup was to support a monorepo with mult
 
 When building components before integrating into the Rails app, run `pnpm storybook` in the `@playground/core` directory to start the Storybook server. [Learn more about Storybook and writing component stories.](https://storybook.js.org/docs/react/writing-stories/introduction) You'll find an example under the `@playground/core/stories/` directory.
 
-To serve a React component in the Rails app, a [Stimlus controller](https://stimulusjs.org/) (`react-app-controller.tsx`) is used to mount the component on demand. First, the component must be added to the `@playground/core/src/registry.ts` file:
+To serve a React component in the Rails app, a [custom element powered by Catalyst](https://github.github.io/catalyst/) (`react-island.tsx`) is used to mount the component on demand. First, the component must be added to the `@playground/core/src/registry.ts` file:
 
 ```ts
 import Thing from './components/Thing';
@@ -27,13 +27,13 @@ The actual `registry.ts` uses [dynamic imports](https://developer.mozilla.org/en
 To invoke the Stimulus controller in your Rails view:
 
 ```erb
-<div data-controller="react-app" data-react-app-name="thing" ></div>
+<react-island data-name="thing" ></react-island>
 ```
 
 Or the [ViewComponent](https://github.com/github/view_component) can be used instead:
 
 ```erb
-<%= render ReactAppComponent.new(name: "thing") %>
+<%= render ReactIslandComponent.new(name: "thing") %>
 ```
 
 While iterating on the component in Rails, running `./bin/vite dev` within the Rails directory (`playground`) and `pnpm start` within the package workspace (`@playground/code`) will auto-reload the page when the source files change.
@@ -41,7 +41,7 @@ While iterating on the component in Rails, running `./bin/vite dev` within the R
 If the React component should receive initial props from the Rails view, that can be done in two different ways:
 
 ```erb
-<div data-controller="react-app" data-react-app-name="thing" data-react-app-initial-props="<%= {propName: 'some value'}.to_json %>"></div>
+<react-island data-name="thing" data-props="<%= {propName: 'some value'}.to_json %>"></react-island>
 ```
 
 The hash could be an instance variable, it just needs to be stringified JSON data to be parsed by the Stimulus controller.
@@ -49,7 +49,7 @@ The hash could be an instance variable, it just needs to be stringified JSON dat
 Or:
 
 ```erb
-<%= render ReactAppComponent.new(name: "thing", initial_props: {propName: 'some value'}) %>
+<%= render ReactIslandComponent.new(name: "thing", initial_props: {propName: 'some value'}) %>
 ```
 
 The `initial_props` argument for the ViewComponent will automatically stringify the hash for the rendered HTML output.
