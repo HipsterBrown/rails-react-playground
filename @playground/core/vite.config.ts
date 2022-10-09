@@ -4,7 +4,13 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react({
+    babel: {
+      parserOpts: {
+        plugins: ['decorators-legacy']
+      }
+    }
+  })],
   build: {
     lib: {
       entry: 'src/index.ts',
@@ -14,6 +20,9 @@ export default defineConfig({
     },
     outDir: 'dist',
     sourcemap: true,
+  },
+  esbuild: {
+    keepNames: true
   },
   test: {
     globals: true,

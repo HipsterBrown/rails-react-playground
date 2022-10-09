@@ -1,3 +1,1 @@
-import { startStimulusApplication } from "@playground/core";
-
-startStimulusApplication();
+import "@playground/core";
