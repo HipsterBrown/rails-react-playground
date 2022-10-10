@@ -6,7 +6,7 @@ An example repo setup for serving React components through Rails using [pnpm wor
 
 While the original motivation for this setup was to support a monorepo with multiple Rails apps and engines and sharing JS assets, like custom elements and React components, among them, this simplified example shows a nice workflow where the JS assets can be built in isolation with modern tooling and served through the dependent Rails app like any other package.
 
-[pnpm workspaces](https://pnpm.io/workspaces) are used to connect the internal JS package with the Rails app without needing to publish the package to a remote registry. The `@playground` directory is used to allow for multiple internal packages to be scoped under the `workspaces` field in the root `package.json`, but it's not required. `@playground/core` is scaffolded using [`create-vite-app`](https://vitejs.dev/guide/#scaffolding-your-first-vite-project) and a React template because it is quick and comes with standard tooling for building TypeScript + React packages. The Rails app (`playground`) is generated like normal, then uses the `bundle exec vite install` command after adding `vite_rails` to the Gemfile.
+[pnpm workspaces](https://pnpm.io/workspaces) are used to connect the internal JS package with the Rails app without needing to publish the package to a remote registry. The `@playground` directory is used to allow for multiple internal packages to be scoped under the `packages` field in the root `pnpm-workspace.yaml`, but it's not required. `@playground/core` is scaffolded using [`create-vite-app`](https://vitejs.dev/guide/#scaffolding-your-first-vite-project) and a React template because it is quick and comes with standard tooling for building TypeScript + React packages. The Rails app (`playground`) is generated without Webpacker, then uses the `bundle exec vite install` command after adding `vite_rails` to the Gemfile.
 
 ## Dev Workflow
 
@@ -28,7 +28,7 @@ Or the [ViewComponent](https://github.com/github/view_component) can be used ins
 <%= render ReactIslandComponent.new(name: "thing") %>
 ```
 
-While iterating on the component in Rails, running `./bin/vite dev` within the Rails directory (`playground`) and `pnpm start` within the package workspace (`@playground/code`) will auto-reload the page when the source files change.
+While iterating on the component in Rails, running `foreman start -f Procfile.dev` within the Rails directory (`playground`) and `pnpm start` within the package workspace (`@playground/code`) will auto-reload the page when the source files change.
 
 If the React component should receive initial props from the Rails view, that can be done in two different ways:
 
