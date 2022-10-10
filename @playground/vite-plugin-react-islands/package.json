@@ -1,0 +1,26 @@
+{
+  "name": "vite-plugin-react-islands",
+  "version": "0.0.1",
+  "description": "Vite plugin for auto-registering React components as islands to be loaded through a custom element",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --dts --format esm,cjs",
+    "prepare": "pnpm build"
+  },
+  "devDependencies": {
+    "@tsconfig/node18": "^1.0.1",
+    "tsup": "latest",
+    "vite": "^3.0.0"
+  },
+  "peerDependencies": {
+    "@github/catalyst": "<= 2",
+    "react-dom": ">= 18",
+    "react": ">= 18"
+  },
+  "files": [
+    "src",
+    "dist"
+  ]
+}

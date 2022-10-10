@@ -12,9 +12,9 @@ While the original motivation for this setup was to support a monorepo with mult
 
 When building components before integrating into the Rails app, run `pnpm storybook` in the `@playground/core` directory to start the Storybook server. [Learn more about Storybook and writing component stories.](https://storybook.js.org/docs/react/writing-stories/introduction) You'll find an example under the `@playground/core/stories/` directory.
 
-To serve a React component in the Rails app, a [custom element powered by Catalyst](https://github.github.io/catalyst/) (`react-island.tsx`) is used to mount the component on demand. Any component file placed in the `@playground/core/src/islands` directory will be automatically registered by the `registry.ts` glob import. This is similar to the conventions use by [Fresh](https://fresh.deno.dev/docs/concepts/islands).
+To serve a React component in the Rails app, a [custom element powered by Catalyst](https://github.github.io/catalyst/) (`react-island.tsx`) is used to mount the component on demand. Any component file placed in the `@playground/core/src/islands` directory will be automatically registered by the `vite-plugin-react-islands` build plugin which is executed through the `import 'virtual:react-islands'` in the `src/index.ts` of the core internal package. This is similar to the conventions use by [Fresh](https://fresh.deno.dev/docs/concepts/islands).
 
-The actual `registry.ts` uses [dynamic imports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#Dynamic_Imports) and the [React.lazy](https://reactjs.org/docs/code-splitting.html#reactlazy) API to split the bundled component and lazily load one when the custom element requests it.
+The plugin uses [dynamic imports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#Dynamic_Imports) and the [React.lazy](https://reactjs.org/docs/code-splitting.html#reactlazy) API to split the bundled component and lazily load one when the custom element requests it.
 
 To invoke the custom element in your Rails view:
 

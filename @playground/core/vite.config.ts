@@ -3,6 +3,7 @@
 import { resolve } from 'path'
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { reactIslands } from 'vite-plugin-react-islands'
 
 export default defineConfig({
   plugins: [react({
@@ -11,7 +12,7 @@ export default defineConfig({
         plugins: ['decorators-legacy']
       }
     }
-  })],
+  }), reactIslands()],
   build: {
     lib: {
       entry: 'src/index.ts',
