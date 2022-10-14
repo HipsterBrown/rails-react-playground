@@ -1,6 +1,5 @@
-import Thing from "@/components/Thing";
-import { PropsWithChildren } from "react";
+import Thing, { Props as ThingProps } from "@/components/Thing";
 
-export default function Example({ children }: PropsWithChildren) {
+export default function Example({ children }: Pick<ThingProps, 'children'>) {
   return <Thing>{children}</Thing>
 }

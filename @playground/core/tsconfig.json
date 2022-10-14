@@ -33,6 +33,7 @@
       ]
     },
     "jsx": "react-jsx",
+    "jsxImportSource": "preact",
     "esModuleInterop": true,
     "experimentalDecorators": true
   }

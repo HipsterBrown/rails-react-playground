@@ -2,17 +2,11 @@
 
 import { resolve } from 'path'
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import { reactIslands } from 'vite-plugin-react-islands'
+import preact from '@preact/preset-vite';
+import { preactIslands } from 'vite-plugin-preact-islands'
 
 export default defineConfig({
-  plugins: [react({
-    babel: {
-      parserOpts: {
-        plugins: ['decorators-legacy']
-      }
-    }
-  }), reactIslands()],
+  plugins: [preactIslands(), preact()],
   build: {
     lib: {
       entry: 'src/index.ts',
@@ -27,7 +21,8 @@ export default defineConfig({
     alias: { '@': resolve(__dirname, 'src') }
   },
   esbuild: {
-    keepNames: true
+    keepNames: true,
+    jsxImportSource: "preact"
   },
   test: {
     globals: true,

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ReactIslandComponent < ViewComponent::Base
+class PreactIslandComponent < ViewComponent::Base
   attr_reader :name, :initial_props, :load_on
 
   def initialize(name:, initial_props: {}, load_on: 'ready')

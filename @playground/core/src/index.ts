@@ -1,1 +1,1 @@
-import 'virtual:react-islands';
+import 'virtual:preact-islands';
