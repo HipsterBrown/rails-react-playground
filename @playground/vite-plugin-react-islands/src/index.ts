@@ -22,7 +22,7 @@ lazyDefine('react-island', () => import('${ELEMENT_MODULE_ID}'))
       }
       if (id === RESOLVED_ELEMENT_MODULE_ID) {
         return `
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, Fragment } from 'react';
 import { jsx as _jsx } from 'react/jsx-runtime';
 import { createRoot } from 'react-dom/client';
 
@@ -39,11 +39,15 @@ export class ReactIslandElement extends HTMLElement {
 
     if (Island) {
       createRoot(this).render(
-        _jsx(Suspense, { fallback: "Loading...", children: _jsx(Island, this.initialProps) })
+        _jsx(Suspense, { fallback: this.fallback, children: _jsx(Island, this.initialProps) })
       )
     } else {
       console.warn("Could not resolve island with name:", this.name);
     }
+  }
+
+  get fallback() {
+    return _jsx("div", { dangerouslySetInnerHTML: { __html: this.innerHTML || "<p>Loading...</p>" } })
   }
 
   get name() {
