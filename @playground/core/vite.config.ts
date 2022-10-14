@@ -6,13 +6,7 @@ import react from '@vitejs/plugin-react';
 import { reactIslands } from 'vite-plugin-react-islands'
 
 export default defineConfig({
-  plugins: [react({
-    babel: {
-      parserOpts: {
-        plugins: ['decorators-legacy']
-      }
-    }
-  }), reactIslands()],
+  plugins: [react(), reactIslands()],
   build: {
     lib: {
       entry: 'src/index.ts',
