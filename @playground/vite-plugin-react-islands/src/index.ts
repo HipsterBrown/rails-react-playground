@@ -17,14 +17,13 @@ export function reactIslands() {
       if (id === RESOLVED_MODULE_ID) {
         return `
 import { lazyDefine } from '@github/catalyst'
-lazyDefine('react-island', () => import('virtual:elements/react-island'))
+lazyDefine('react-island', () => import(${ELEMENT_MODULE_ID}))
         `
       }
       if (id === RESOLVED_ELEMENT_MODULE_ID) {
         return `
 import { lazy, Suspense } from 'react';
 import { jsx as _jsx } from 'react/jsx-runtime';
-import { controller, initializeAttrs, defineObservedAttributes } from '@github/catalyst'
 import { createRoot } from 'react-dom/client';
 
 const islands = import.meta.glob(['/**/islands/*.tsx', '/**/islands/*.jsx'])
@@ -35,10 +34,7 @@ export const getIsland = (name) => {
 }
 
 export class ReactIslandElement extends HTMLElement {
-  name = "";
-
   connectedCallback() {
-    initializeAttrs(this, ["name"])
     const Island = this.island;
 
     if (Island) {
@@ -50,16 +46,19 @@ export class ReactIslandElement extends HTMLElement {
     }
   }
 
+  get name() {
+    return this.dataset.name || "";
+  }
+
   get island() {
-    return getIsland(this.name || "");
+    return getIsland(this.name);
   }
 
   get initialProps() {
     return JSON.parse(this.dataset.props || '{}');
   }
 }
-controller(ReactIslandElement)
-defineObservedAttributes(ReactIslandElement)
+customElements.define('react-island', ReactIslandElement)
         `
       }
     }
