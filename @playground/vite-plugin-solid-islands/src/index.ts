@@ -1,13 +1,13 @@
 import type { Plugin } from 'vite';
 
-export function reactIslands() {
-  const MODULE_ID = 'virtual:react-islands'
+export function solidIslands() {
+  const MODULE_ID = 'virtual:solid-islands'
   const RESOLVED_MODULE_ID = `\0${MODULE_ID}`
-  const ELEMENT_MODULE_ID = 'virtual:elements/react-island'
+  const ELEMENT_MODULE_ID = 'virtual:elements/solid-island'
   const RESOLVED_ELEMENT_MODULE_ID = `\0${ELEMENT_MODULE_ID}`
 
   return <Plugin>{
-    name: "react-islands",
+    name: "solid-islands",
     enforce: "pre",
     resolveId(id: string) {
       if (id === MODULE_ID) return RESOLVED_MODULE_ID
@@ -17,14 +17,13 @@ export function reactIslands() {
       if (id === RESOLVED_MODULE_ID) {
         return `
 import { lazyDefine } from '@github/catalyst'
-lazyDefine('react-island', () => import('${ELEMENT_MODULE_ID}'))
+lazyDefine('solid-island', () => import('${ELEMENT_MODULE_ID}'))
         `
       }
       if (id === RESOLVED_ELEMENT_MODULE_ID) {
         return `
-import { lazy, Suspense, Fragment } from 'react';
-import { jsx as _jsx } from 'react/jsx-runtime';
-import { createRoot } from 'react-dom/client';
+import { lazy } from 'solid-js';
+import { render, template, createComponent, Suspense } from 'solid-js/web';
 
 const islands = import.meta.glob(['/**/islands/*.tsx', '/**/islands/*.jsx'])
 export const getIsland = (name) => {
@@ -33,13 +32,19 @@ export const getIsland = (name) => {
   return null;
 }
 
-export class ReactIslandElement extends HTMLElement {
+const tmpl = template("<div></div>", 2)
+
+export class SolidIslandElement extends HTMLElement {
   connectedCallback() {
     const Island = this.island;
 
     if (Island) {
-      createRoot(this).render(
-        _jsx(Suspense, { fallback: this.fallback, children: _jsx(Island, this.initialProps) })
+      const self = this;
+      const fallback = this.fallback;
+      this.innerHTML = "";
+      render(
+        () => createComponent(Suspense, { fallback, get children() { return createComponent(Island, self.initialProps) } }),
+        this
       )
     } else {
       console.warn("Could not resolve island with name:", this.name);
@@ -47,7 +52,11 @@ export class ReactIslandElement extends HTMLElement {
   }
 
   get fallback() {
-    return _jsx("div", { dangerouslySetInnerHTML: { __html: this.innerHTML || "<p>Loading...</p>" } })
+    return (() => {
+      const el = tmpl.cloneNode(true);
+      el.innerHTML = this.innerHTML || "<p>Loading...</p>";
+      return el;
+    })();
   }
 
   get name() {
@@ -62,7 +71,7 @@ export class ReactIslandElement extends HTMLElement {
     return JSON.parse(this.dataset.props || '{}');
   }
 }
-customElements.define('react-island', ReactIslandElement)
+customElements.define('solid-island', SolidIslandElement)
         `
       }
     }

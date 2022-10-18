@@ -1,6 +1,6 @@
+import type { JSX } from 'solid-js'
 import Thing from "@/components/Thing";
-import { PropsWithChildren } from "react";
 
-export default function Example({ children }: PropsWithChildren) {
-  return <Thing>{children}</Thing>
+export default function Example(props: { children: JSX.Element }) {
+  return <Thing>{props.children}</Thing>
 }

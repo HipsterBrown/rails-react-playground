@@ -1,39 +1,39 @@
-# React in Rails Playground
+# Solid in Rails Playground
 
-An example repo setup for serving React components through Rails using [pnpm workspaces](https://pnpm.io/workspaces), [Vite Ruby](https://vite-ruby.netlify.app/), and [Catalyst](https://github.github.io/catalyst/).
+An example repo setup for serving Solid components through Rails using [pnpm workspaces](https://pnpm.io/workspaces), [Vite Ruby](https://vite-ruby.netlify.app/), and [Catalyst](https://github.github.io/catalyst/).
 
 ## Overview
 
-While the original motivation for this setup was to support a monorepo with multiple Rails apps and engines and sharing JS assets, like custom elements and React components, among them, this simplified example shows a nice workflow where the JS assets can be built in isolation with modern tooling and served through the dependent Rails app like any other package.
+While the original motivation for this setup was to support a monorepo with multiple Rails apps and engines and sharing JS assets, like custom elements and Solid components, among them, this simplified example shows a nice workflow where the JS assets can be built in isolation with modern tooling and served through the dependent Rails app like any other package.
 
-[pnpm workspaces](https://pnpm.io/workspaces) are used to connect the internal JS package with the Rails app without needing to publish the package to a remote registry. The `@playground` directory is used to allow for multiple internal packages to be scoped under the `packages` field in the root `pnpm-workspace.yaml`, but it's not required. `@playground/core` is scaffolded using [`create-vite-app`](https://vitejs.dev/guide/#scaffolding-your-first-vite-project) and a React template because it is quick and comes with standard tooling for building TypeScript + React packages. The Rails app (`playground`) is generated without Webpacker, then uses the `bundle exec vite install` command after adding `vite_rails` to the Gemfile.
+[pnpm workspaces](https://pnpm.io/workspaces) are used to connect the internal JS package with the Rails app without needing to publish the package to a remote registry. The `@playground` directory is used to allow for multiple internal packages to be scoped under the `packages` field in the root `pnpm-workspace.yaml`, but it's not required. `@playground/core` is scaffolded using [`create-vite-app`](https://vitejs.dev/guide/#scaffolding-your-first-vite-project) and a Solid template because it is quick and comes with standard tooling for building TypeScript + Solid packages. The Rails app (`playground`) is generated without Webpacker, then uses the `bundle exec vite install` command after adding `vite_rails` to the Gemfile.
 
 ## Dev Workflow
 
-When building components before integrating into the Rails app, run `pnpm storybook` in the `@playground/core` directory to start the Storybook server. [Learn more about Storybook and writing component stories.](https://storybook.js.org/docs/react/writing-stories/introduction) You'll find an example under the `@playground/core/stories/` directory.
+When building components before integrating into the Rails app, run `pnpm storybook` in the `@playground/core` directory to start the Storybook server. [Learn more about Storybook and writing component stories.](https://storybook.js.org/docs/solid/writing-stories/introduction) You'll find an example under the `@playground/core/stories/` directory.
 
-To serve a React component in the Rails app, a [custom element powered by Catalyst](https://github.github.io/catalyst/) (`react-island.tsx`) is used to mount the component on demand. Any component file placed in the `@playground/core/src/islands` directory will be automatically registered by the `vite-plugin-react-islands` build plugin which is executed through the `import 'virtual:react-islands'` in the `src/index.ts` of the core internal package. This is similar to the conventions use by [Fresh](https://fresh.deno.dev/docs/concepts/islands).
+To serve a Solid component in the Rails app, a [custom element powered by Catalyst](https://github.github.io/catalyst/) (`solid-island.tsx`) is used to mount the component on demand. Any component file placed in the `@playground/core/src/islands` directory will be automatically registered by the `vite-plugin-solid-islands` build plugin which is executed through the `import 'virtual:solid-islands'` in the `src/index.ts` of the core internal package. This is similar to the conventions use by [Fresh](https://fresh.deno.dev/docs/concepts/islands).
 
-The plugin uses [dynamic imports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#Dynamic_Imports) and the [React.lazy](https://reactjs.org/docs/code-splitting.html#reactlazy) API to split the bundled component and lazily load one when the custom element requests it.
+The plugin uses [dynamic imports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#Dynamic_Imports) and the [Solid.lazy](https://www.solidjs.com/docs/latest/api#lazy) API to split the bundled component and lazily load one when the custom element requests it.
 
 To invoke the custom element in your Rails view:
 
 ```erb
-<react-island data-name="thing" ></react-island>
+<solid-island data-name="thing" ></solid-island>
 ```
 
 Or the [ViewComponent](https://github.com/github/view_component) can be used instead:
 
 ```erb
-<%= render ReactIslandComponent.new(name: "thing") %>
+<%= render SolidIslandComponent.new(name: "thing") %>
 ```
 
 While iterating on the component in Rails, running `foreman start -f Procfile.dev` within the Rails directory (`playground`) and `pnpm start` within the package workspace (`@playground/code`) will auto-reload the page when the source files change.
 
-If the React component should receive initial props from the Rails view, that can be done in two different ways:
+If the solid component should receive initial props from the Rails view, that can be done in two different ways:
 
 ```erb
-<react-island data-name="thing" data-props="<%= {propName: 'some value'}.to_json %>"></react-island>
+<solid-island data-name="thing" data-props="<%= {propName: 'some value'}.to_json %>"></solid-island>
 ```
 
 The hash could be an instance variable, it just needs to be stringified JSON data to be parsed by the custom element.
@@ -41,19 +41,19 @@ The hash could be an instance variable, it just needs to be stringified JSON dat
 Or:
 
 ```erb
-<%= render ReactIslandComponent.new(name: "thing", initial_props: {propName: 'some value'}) %>
+<%= render SolidIslandComponent.new(name: "thing", initial_props: {propName: 'some value'}) %>
 ```
 
 The `initial_props` argument for the ViewComponent will automatically stringify the hash for the rendered HTML output.
 
-Because the `react-island` island is [lazily-defined](https://github.github.io/catalyst/guide/lazy-elements/), the loading behavior can be controlled through the `data-load-on` attribute:
+Because the `solid-island` island is [lazily-defined](https://github.github.io/catalyst/guide/lazy-elements/), the loading behavior can be controlled through the `data-load-on` attribute:
 
 ```erb
-<react-island data-name="thing" data-load-on="visible"></react-island>
+<solid-island data-name="thing" data-load-on="visible"></solid-island>
 ```
 
 Or with the companion ViewComponent:
 
 ```erb
-<%= render ReactIslandComponent.new(name: "thing", load_on: 'visible') %>
+<%= render SolidIslandComponent.new(name: "thing", load_on: 'visible') %>
 ```

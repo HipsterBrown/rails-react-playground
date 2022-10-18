@@ -1,7 +1,7 @@
 {
-  "name": "vite-plugin-react-islands",
+  "name": "vite-plugin-solid-islands",
   "version": "0.0.1",
-  "description": "Vite plugin for auto-registering React components as islands to be loaded through a custom element",
+  "description": "Vite plugin for auto-registering Solid components as islands to be loaded through a custom element",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -16,8 +16,7 @@
   },
   "peerDependencies": {
     "@github/catalyst": "<= 2",
-    "react-dom": ">= 18",
-    "react": ">= 18"
+    "solid-js": ">= 1.5"
   },
   "files": [
     "src",

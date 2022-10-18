@@ -2,11 +2,11 @@
 
 import { resolve } from 'path'
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import { reactIslands } from 'vite-plugin-react-islands'
+import solid from 'vite-plugin-solid';
+import { solidIslands } from 'vite-plugin-solid-islands'
 
 export default defineConfig({
-  plugins: [react(), reactIslands()],
+  plugins: [solid(), solidIslands()],
   build: {
     lib: {
       entry: 'src/index.ts',

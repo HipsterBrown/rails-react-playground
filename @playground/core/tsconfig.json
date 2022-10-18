@@ -32,7 +32,8 @@
         "node_modules/*"
       ]
     },
-    "jsx": "react-jsx",
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
     "esModuleInterop": true,
     "experimentalDecorators": true
   }
